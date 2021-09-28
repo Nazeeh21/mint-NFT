@@ -1,13 +1,13 @@
 import './styles/App.css';
 import twitterLogo from './assets/twitter-logo.svg';
-import React, { useEffect, useState } from "react"
+import React, { useCallback, useEffect, useState } from "react"
 import { ethers } from "ethers";
 import myEpicNft from './utils/MyEpicNFT.json';
 
 // Constants
 const TWITTER_HANDLE = 'Nazeeh21';
 const TWITTER_LINK = `https://twitter.com/${TWITTER_HANDLE}`;
-const OPENSEA_LINK = '';
+// const OPENSEA_LINK = '';
 const TOTAL_MINT_COUNT = 100;
 
 const CONTRACT_ADDRESS = "0xe4DF53565D59A0A9e80D9ef122Dc924ab6feF7A3";
@@ -18,7 +18,7 @@ const App = () => {
   const [mintNftLoading, setMintNftLoading] = useState(false)
   const [connectWalletLoading, setConnectWalletLoading] = useState(false)
 
-  const checkIfWalletIsConnected = async () => {
+  const checkIfWalletIsConnected = useCallback(async () => {
     /*
    * First make sure we have access to window.ethereum
    */
@@ -50,11 +50,11 @@ const App = () => {
     } else {
       console.log("No authorized account found")
     }
-  }
+  }, [])
 
   useEffect(() => {
     checkIfWalletIsConnected()
-  }, [])
+  }, [checkIfWalletIsConnected])
 
   const connectWallet = async () => {
     if(connectWalletLoading) {return}
@@ -182,8 +182,8 @@ const App = () => {
             <a
               className="footer-text"
               href={TWITTER_LINK}
+              rel="noopener noreferrer"
               target="_blank"
-              rel="noreferrer"
             >{`built by @${TWITTER_HANDLE}`}</a></div>
         </div>
       </div>
